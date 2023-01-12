@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DjShope - Get Best Products Here</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+  </head>
+  <body style="background-color: #f0f0f0">
+    {% comment %} navbar {% endcomment %}
+    <nav class="navbar bg-dark fixed-top">
+      <div class="col-2 ms-3">
+        <a class="navbar-brand text-light" href="#">
+          <img
+            src="{% static 'images/logo.jpg' %}"
+            alt="Logo"
+            width="32"
+            height="32"
+            class="d-inline-block align-text-middle"
+          />
+          <span> DjShope </span>
+        </a>
+      </div>
+      <div class="col-2 text-light">
+        <button class="nav-item dropdown btn btn-light w-75">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Categories
+          </a>
+          <ul class="dropdown-menu">
+            {% for category in categories %}
+            <li>
+              <a class="dropdown-item" href="{{category.get_absolute_url}}"
+                >{{category.name}}</a
+              >
+            </li>
+            {% endfor %}
+          </ul>
+        </button>
+      </div>
+      <div class="col-4">
+        <form
+          class="d-flex"
+          role="search"
+          method="post"
+          action="{% url 'search-product' %}"
+        >
+          {% csrf_token %}
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search for your Products"
+            aria-label="Search"
+            name="query"
+          />
+          <button class="btn btn-success" type="submit">
+            <i class="bi bi-search text-light"></i>
+          </button>
+        </form>
+      </div>
+      <div class="col-2 text-center">
+        {% if index %}
+        <a
+          class="d-inline btn btn-primary w-50"
+          type="button"
+          href="{% url 'login' %}"
+        >
+          <i class="bi bi-box-arrow-in-right text-light"></i> Get Started
+        </a>
+        {% else %}
+        <span class="text-light"
+          ><i class="bi bi-person-check"></i> My account
+        </span>
+        &nbsp;
+        <a class="text-light" href="{% url 'logout' %}"
+          ><i class="bi bi-box-arrow-in-left"></i> Logout
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="col-1">
+        <span class="text-light text-center fs-6">
+          <i class="bi bi-cart4 fs-4"></i> My Cart
+        </span>
+      </div>
+    </nav>
+
+    <div class="container mt-5 mb-2 bg-light">
+      <div class="col-8 mx-auto pt-5 pb-5 text-center">
+        <img
+          src="{% static 'images/logo.jpg' %}"
+          alt="Logo"
+          width="100"
+          height="100"
+          class="align-text-middle"
+        />
+        <label class="fs-2 fw-bold">DjShope</label>
+        <br />
+        <label class="fs-2 fw-bold">Welcome to DjShope</label>
+        <p class="fs-5">
+          Thankyou for Choosing DjShope for your purchase.<br />
+          We have best and quality products with us here. Some Lastest products
+          are listed here. <br />
+          From More products Login / Signup with us.
+        </p>
+        {% if index %}
+        <a
+          href="{% url 'login' %}"
+          class="d-inline btn btn-primary w-50"
+          type="button"
+        >
+          Get Started
+        </a>
+        {% else %}
+        <a
+          href="{% url 'index' %}"
+          class="d-inline btn btn-primary w-50"
+          type="button"
+        >
+          Back to Homepage
+        </a>
+        {% endif %}
+      </div>
+      <div class="col-12 mt-5">
+        <div class="row">
+          {% if not index %}
+          <div class="row">
+            <div class="col-12 text-center">
+              <span class="fs-3 fw-bold">Results For : </span>
+              <span class="fs-4"> {{query}} </span>
+            </div>
+          </div>
+          {% endif%} {% if not products %}
+          <div class="col-12 text-center">
+            <label class="fs-3 fw-bold">
+              Searched Product Not Available :(
+            </label>
+          </div>
+          {% else %} {% for product in products %}
+          <div class="col-4 p-3 d-flex align-items-stretch">
+            <div class="card box-shadow-2">
+              <img
+                src="{{product.get_thumbnail}}"
+                class="card-img-top p-2"
+                alt="thumbnail"
+                height="300"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">{{ product.description }}</p>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-7">
+                    <span class="fs-5 fw-bold">₹</span>
+                    <span class="fs-3 fw-bold"
+                      >{{ product.price | slice:":-3" }}
+                    </span>
+                    <span class="fs-5 fw-bold"
+                      >{{ product.price | slice:"-3:" }}</span
+                    >
+                  </div>
+                  <div class="col-5">
+                    <a
+                      class="btn btn-warning w-100"
+                      href="view-products/{{product.id}}"
+                    >
+                      <i class="bi bi-cart"></i> Buy Now
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}{% endif %}
+        </div>
+        <div class="row m-5"></div>
+      </div>
+    </div>
+    <div class="container-fluid fixed-bottom bg-dark text-center p-2">
+      <span class="text-light">Copyright © Prasanth Rao | 2023 </span>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
