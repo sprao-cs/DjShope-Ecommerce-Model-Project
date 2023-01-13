@@ -126,13 +126,13 @@ def searchCategory(request, category_slug):
 
 
 def readEnv():
-    localenv = open("src\\frontEnd\\localenv.txt", "r")
+    localenv = open("E:\\personalProjects\\DjShope-Ecommerce-Model-Project\\src\\frontEnd\localenv.txt", "r")
     text = localenv.read()
     localenv.close()
     return text
 
 def writeEnv(text):
-    localenv = open("src\\frontEnd\\localenv.txt", "w")
+    localenv = open("E:\\personalProjects\\DjShope-Ecommerce-Model-Project\\src\\frontEnd\localenv.txt", "w")
     localenv.write(text)
     localenv.close()
 

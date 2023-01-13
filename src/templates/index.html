@@ -20,7 +20,7 @@
     {% comment %} navbar {% endcomment %}
     <nav class="navbar bg-dark fixed-top">
       <div class="col-2 ms-3">
-        <a class="navbar-brand text-light" href="#">
+        <a class="navbar-brand text-light" href="{% url 'index' %}">
           <img
             src="{% static 'images/logo.jpg' %}"
             alt="Logo"
@@ -32,6 +32,7 @@
         </a>
       </div>
       <div class="col-2 text-light">
+        {% if not index %}
         <button class="nav-item dropdown btn btn-light w-75">
           <a
             class="nav-link dropdown-toggle"
@@ -52,6 +53,7 @@
             {% endfor %}
           </ul>
         </button>
+        {% endif%}
       </div>
       <div class="col-4">
         <form
@@ -176,12 +178,18 @@
                     >
                   </div>
                   <div class="col-5">
+                    {% if not index%}
                     <a
                       class="btn btn-warning w-100"
                       href="view-products/{{product.id}}"
                     >
                       <i class="bi bi-cart"></i> Buy Now
                     </a>
+                    {% else %}
+                    <a class="btn btn-warning w-100" href="{% url 'login' %}">
+                      <i class="bi bi-cart"></i> Buy Now
+                    </a>
+                    {% endif %}
                   </div>
                 </div>
               </div>

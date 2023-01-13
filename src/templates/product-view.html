@@ -20,7 +20,7 @@
     {% comment %} navbar {% endcomment %}
     <nav class="navbar bg-dark fixed-top">
       <div class="col-3 ms-3">
-        <a class="navbar-brand text-light" href="#">
+        <a class="navbar-brand text-light" href="{% url 'index' %}">
           <img
             src="{% static 'images/logo.jpg' %}"
             alt="Logo"
@@ -78,7 +78,7 @@
       </div>
     </nav>
 
-    <div class="container mt-5 mb-2 bg-light">
+    <div class="container mt-2 mb-5 bg-light">
       <div class="col-8 mx-auto pt-5 text-center">
         <img
           src="{% static 'images/logo.jpg' %}"
